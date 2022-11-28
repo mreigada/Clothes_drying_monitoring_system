@@ -20,9 +20,9 @@ Para cargar el programa en la placa de desarrollo se requiere utilizar el plugin
 ## Indicaciones para el uso sistema (provisorio)
 1. Encender el sistema
 2. Acceder desde un navegador web al puerto asignado (típicamente 192.168.1.45)
-3. Elegir desde el menú desplegable el tipo de función a utilizar (Estimación de tiempo de secado para interiores, Estimación de tiempo de secado para exteriores, medidor de variables ambientales)
+3. Elegir desde el menú desplegable el tipo de función a utilizar (estimación de tiempo de secado para interiores, estimación de tiempo de secado para exteriores, medición de variables ambientales)
 4. Dar inicio a la estimación pulsando el botón "Start monitoring"
-5. Según la opción elegida en el paso 4 se podrán ver en pantalla el resultado de
+5. Según la opción elegida en el paso 4 se podrán ver en pantalla los resultados esperados, actualizandose de manera constante cada 15 segundos
 6. En caso de querer volver al menú principal, pulsar el botón "Back to main menu"
 
 
