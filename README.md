@@ -1,4 +1,3 @@
-![image](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 # Sistema de monitoreo/estimación de secado de ropa
 En este repositorio se encuentran los códigos fuentes del proyecto final para la asignatura Sistemas Embebidos (86.65). El mismo consiste en un sistema de estimación / monitoreo de secado de ropa mediante la medición de variables ambientales (temperatura, humedad) y el uso de un sensor de lluvia para detectar la posible ocurrencia de esta junto con una medición estimada de su intensidad.
 
