@@ -1,14 +1,15 @@
 //================================[#include guards - begin]=================================//
 #include "wifi_com.h"
 
+
+//========================[Declaration of Private global variables]===================//
 WiFiServer server(80);
-const char* ssid = "Home signal";
-const char* password = "kneesocks12";
 
 
+//===========================[Implementation of public functions]=====================//
 void wifiComInit()
 {
-    WiFi.begin(ssid, password);
+    WiFi.begin(SSID, PASSWORD);
   	while (WiFi.status() != WL_CONNECTED)
   	{
 		delay (1000);

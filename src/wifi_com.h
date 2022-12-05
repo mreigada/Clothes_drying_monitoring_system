@@ -6,6 +6,10 @@
 #include "web_user_interface.h"
 
 
+//===============================[Declaration of private defines]===========================//
+#define SSID "SSID"
+#define PASSWORD "PASSWORD"
+
 //=====================[Declarations (prototypes) of public functions]======================//
 void wifiComInit();
 void wifiComUpdate();

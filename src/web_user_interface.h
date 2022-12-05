@@ -63,11 +63,11 @@ color: green;
 <h1>Clothes drying monitoring system</h1>
 <div class=configBox>
 <form action=/get>
-    <label for="lang">Configuration</label>
-    <select name="Configuration" id="config">
-	<optgroup label="Outdoor clothes drying">
-	<option value="OUTDOOR_THIN">Thin clothes</option>
-	<option value="OUTDOOR_THICK">Thick clothes</option>
+<label for="lang">Configuration</label>
+<select name="Configuration" id="config">
+<optgroup label="Outdoor clothes drying">
+<option value="OUTDOOR_THIN">Thin clothes</option>
+<option value="OUTDOOR_THICK">Thick clothes</option>
 </optgroup>
 <optgroup label="Indoor clothes drying">
 <option value="INDOOR_THIN">Thin clothes</option>
