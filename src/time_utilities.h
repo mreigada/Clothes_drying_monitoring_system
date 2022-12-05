@@ -1,6 +1,6 @@
 //================================[#include guards - begin]=================================//
-#ifndef _UTILITIES_H_
-#define _UTILITIES_H_
+#ifndef _TIME_UTILITIES_H_
+#define _TIME_UTILITIES_H_
 
 #include <ESP8266WiFi.h>
 
@@ -16,6 +16,6 @@
 
 //====[Declarations (prototypes) of public functions]====//
 void msDelay(long unsigned int timeToDelay);
+char* secondsToHourFormat(int seconds);
 
-
-#endif // _UTILITIES_H_
+#endif // _TIME_UTILITIES_H_

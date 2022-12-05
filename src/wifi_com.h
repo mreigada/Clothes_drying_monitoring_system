@@ -3,12 +3,13 @@
 #define _WIFI_COM_H_
 
 #include <ESP8266WiFi.h>
-#include "clothes_drying_estimator.h"
-#include "rain_sensor.h"
-#include "dht_sensor.h"
+#include "web_user_interface.h"
 
+
+//=====================[Declarations (prototypes) of public functions]======================//
 void wifiComInit();
 void wifiComUpdate();
 
+//=================================[#include guards - end]==================================//
 
-#endif //_WIFI_COM_H_
+#endif // _WIFI_COM_H_

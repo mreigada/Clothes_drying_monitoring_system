@@ -7,6 +7,7 @@
 
 //===============================[Declaration of private defines]===========================//
 #define MIN_INTERVAL 2000
+#define dhtSensorDigitalPin D1
 
 
 //=====================[Declarations (prototypes) of public functions]======================//
@@ -16,7 +17,6 @@ float dhtSensorReadTemperature();
 float dhtSensorReadHumidity();
 float convertCtoF(float);
 float convertFtoC(float);
-float computeHeatIndex(float temperature, float percentHumidity, bool isFahrenheit=true);
 
 
 //=====================[Declarations (prototypes) of private functions]=====================//        

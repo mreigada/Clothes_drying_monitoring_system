@@ -4,6 +4,7 @@
 
 #include <ESP8266WiFi.h>
 #include "dht_sensor.h"
+#include "time_utilities.h"
 #include "math.h"
 
 
@@ -11,6 +12,7 @@
 #define dhtSensorPin D1
 #define TIMER1_25_SECONDS_TICKS_EQUIVALENCE 7812500
 #define SECONDS_BETWEEN_UPDATE 25
+#define DRYING_TIME_ELAPSED_MSG "The estimated laundry drying time has already elapsed."
 
 //==============================[Declaration of public data types]==========================//
 typedef enum
@@ -25,13 +27,13 @@ void clothesDryingEstimatorInit();
 void clothesDryingEstimatorUpdate();
 void enableClothesDryingEstimator(clothingThickness_t clothingThickness);
 void disableClothesDryingEstimator();
+float calculateSecondsToDryClothes(float temperature, float humidity, clothingThickness_t thickness);
 char* readDryingClothesEstimation();
+void serialPrintDryingClothesEstimation();
 
 //======================[Declarations (prototypes) of private functions]====================//
-void changeClothesEstimatorUpdateFlag();
+void updateClothesEstimatorIndicators();
 void updateDryingData();
-float calculateSecondsToDryClothes(float temperature, float humidity, clothingThickness_t thickness);
-void serialPrintDryingClothesEstimation();
 
 //=================================[#include guards - end]==================================//
 

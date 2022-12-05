@@ -4,22 +4,24 @@
 
 //========================[Declaration of Private global variables]===================//
 uint8_t data[5];
-uint8_t _pin = D1;
-uint32_t _lastreadtime;
-uint32_t _maxcycles = microsecondsToClockCycles(1000);
-float dhtSensorHumidity = 0;
-float dhtSensorTemperature = 0;
-bool _lastresult;
+uint32_t lastreadtime;
+uint32_t maxcycles;
+float dhtSensorHumidity;
+float dhtSensorTemperature;
+bool lastresult;
 
 
 //===========================[Implementation of public functions]=====================//
 void dhtSensorInit(void) 
 {
-  pinMode(_pin, INPUT_PULLUP);
+  pinMode(dhtSensorDigitalPin, INPUT_PULLUP);
   // Using this value makes sure that millis() - lastreadtime will be
   // >= MIN_INTERVAL right away. Note that this assignment wraps around,
   // but so will the subtraction.
-  _lastreadtime = -MIN_INTERVAL;
+  lastreadtime = -MIN_INTERVAL;
+  maxcycles = microsecondsToClockCycles(1000);
+  dhtSensorHumidity = 0;
+  dhtSensorTemperature = 0;
 }
 
 
@@ -81,47 +83,17 @@ void dhtSensorUpdateHumidity(bool force)
 
 //=========================[Implementation of private functions]======================//
 
-//boolean isFahrenheit: True == Fahrenheit; False == Celcius
-float computeHeatIndex(float temperature, float percentHumidity, bool isFahrenheit)
+boolean read(bool force) 
 {
-  // Using both Rothfusz and Steadman's equations
-  // http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
-  float hi;
-
-  if (!isFahrenheit)
-    temperature = convertCtoF(temperature);
-
-  hi = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (percentHumidity * 0.094));
-
-  if (hi > 79) {
-    hi = -42.379 +
-             2.04901523 * temperature +
-            10.14333127 * percentHumidity +
-            -0.22475541 * temperature*percentHumidity +
-            -0.00683783 * pow(temperature, 2) +
-            -0.05481717 * pow(percentHumidity, 2) +
-             0.00122874 * pow(temperature, 2) * percentHumidity +
-             0.00085282 * temperature*pow(percentHumidity, 2) +
-            -0.00000199 * pow(temperature, 2) * pow(percentHumidity, 2);
-
-  if((percentHumidity < 13) && (temperature >= 80.0) && (temperature <= 112.0))
-    hi -= ((13.0 - percentHumidity) * 0.25) * sqrt((17.0 - abs(temperature - 95.0)) * 0.05882);
-
-  else if((percentHumidity > 85.0) && (temperature >= 80.0) && (temperature <= 87.0))
-    hi += ((percentHumidity - 85.0) * 0.1) * ((87.0 - temperature) * 0.2);
-  }
-
-  return isFahrenheit ? hi : convertFtoC(hi);
-}
-
-boolean read(bool force) {
   // Check if sensor was read less than two seconds ago and return early
   // to use last reading.
   uint32_t currenttime = millis();
-  if (!force && ((currenttime - _lastreadtime) < 2000)) {
-    return _lastresult; // return last correct measurement
+
+  if (!force && ((currenttime - lastreadtime) < 2000)) 
+  {
+    return lastresult; // return last correct measurement
   }
-  _lastreadtime = currenttime;
+  lastreadtime = currenttime;
 
   // Reset 40 bits of received data to zero.
   data[0] = data[1] = data[2] = data[3] = data[4] = 0;
@@ -131,35 +103,36 @@ boolean read(bool force) {
 
   // Go into high impedence state to let pull-up raise data line level and
   // start the reading process.
-  digitalWrite(_pin, HIGH);
+  digitalWrite(dhtSensorDigitalPin, HIGH);
   delay(250);
 
   // First set data line low for 20 milliseconds.
-  pinMode(_pin, OUTPUT);
-  digitalWrite(_pin, LOW);
+  pinMode(dhtSensorDigitalPin, OUTPUT);
+  digitalWrite(dhtSensorDigitalPin, LOW);
   delay(20);
 
   uint32_t cycles[80];
   {
     // End the start signal by setting data line high for 40 microseconds.
-    digitalWrite(_pin, HIGH);
+    digitalWrite(dhtSensorDigitalPin, HIGH);
     delayMicroseconds(40);
 
     // Now start reading the data line to get the value from the DHT sensor.
-    pinMode(_pin, INPUT_PULLUP);
+    pinMode(dhtSensorDigitalPin, INPUT_PULLUP);
     delayMicroseconds(10);  // Delay a bit to let sensor pull data line low.
 
     // First expect a low signal for ~80 microseconds followed by a high signal
     // for ~80 microseconds again.
     if (expectPulse(LOW) == 0) 
     {
-      _lastresult = false;
-      return _lastresult;
+      lastresult = false;
+      return lastresult;
     }
+
     if (expectPulse(HIGH) == 0) 
     {
-      _lastresult = false;
-      return _lastresult;
+      lastresult = false;
+      return lastresult;
     }
 
     // Now read the 40 bits sent by the sensor.  Each bit is sent as a 50
@@ -183,10 +156,11 @@ boolean read(bool force) {
   {
     uint32_t lowCycles  = cycles[2*i];
     uint32_t highCycles = cycles[2*i+1];
+
     if ((lowCycles == 0) || (highCycles == 0)) 
     {
-      _lastresult = false;
-      return _lastresult;
+      lastresult = false;
+      return lastresult;
     }
     data[i/8] <<= 1;
     // Now compare the low and high cycle times to see if the bit is a 0 or 1.
@@ -203,14 +177,14 @@ boolean read(bool force) {
   // Check we read 40 bits and that the checksum matches.
   if (data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF)) 
   {
-    _lastresult = true;
-    return _lastresult;
+    lastresult = true;
+    return lastresult;
   }
 
   else 
   {
-    _lastresult = false;
-    return _lastresult;
+    lastresult = false;
+    return lastresult;
   }
 }
 
@@ -226,9 +200,9 @@ uint32_t expectPulse(bool level)
   uint32_t count = 0;
   // On AVR platforms use direct GPIO port access as it's much faster and better
   // for catching pulses that are 10's of microseconds in length:
-  while (digitalRead(_pin) == level) 
+  while (digitalRead(dhtSensorDigitalPin) == level) 
   {
-      if (count++ >= _maxcycles) 
+      if (count++ >= maxcycles) 
       {
         return 0; // Exceeded timeout, fail.
       }

@@ -3,13 +3,16 @@
 #define _RAIN_SENSOR_H_
 
 #include <ESP8266WiFi.h>
-#include "utilities.h"
 
 
 //===============================[Declaration of private defines]===========================//
-#define DEBOUNCE_RAIN_SENSOR_TIME_MS 1500
 #define rainSensorDigitalPin D5
 #define rainSensorAnalogPin A0
+#define DEBOUNCE_RAIN_SENSOR_TIME_MS   10
+#define DRIZZLE_UPPER_LIMIT   1024
+#define DRIZZLE_LOWER_LIMIT   600
+#define REGULAR_RAIN_LOWER_LIMIT   400
+
 #define NO_RAIN_DESCRIPTION "there is no rain"
 #define DRIZZLE_RAIN_DESCRIPTION "drizzle"
 #define REGULAR_RAIN_DESCRIPTION "regular rain"
@@ -20,14 +23,14 @@ typedef enum
 {
     ON,
     OFF
-} rainSensorState_t;
+} rainSensorActivation_t;
 
 
 //=====================[Declarations (prototypes) of public functions]======================//
 void rainSensorInit();
 void enableRainSensor();
 void disableRainSensor();
-char* rainSensorReadStateDescription();
+char* readRainSensorStateDescription();
 void rainSensorUpdate();
 
 
@@ -37,7 +40,7 @@ void turnOnTreatment();
 void turnOffTreatment();
 void updateStateDescription();
 int getAnalogRainSensorLecture();
-void activateRainSensorUpdateFlag();
+void activateRainSensorUpdateIndicator();
 
 //=================================[#include guards - end]==================================//
 

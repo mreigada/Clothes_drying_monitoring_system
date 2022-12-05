@@ -2,9 +2,9 @@
 #include "rain_sensor.h"
 
 //========================[Declaration of Private global variables]===================//
-volatile rainSensorState_t rainSensorActivation; 
-char* rainStateDescription;  
+rainSensorActivation_t rainSensorActivation;
 bool rainSensorUpdateRequired;
+char* rainStateDescription;  
 
 
 //===========================[Implementation of public functions]=====================//
@@ -19,7 +19,7 @@ void rainSensorInit()
 
 void enableRainSensor()
 {
-    attachInterrupt(rainSensorDigitalPin, activateRainSensorUpdateFlag, CHANGE);
+    attachInterrupt(rainSensorDigitalPin, activateRainSensorUpdateIndicator, CHANGE);
 }
 
 
@@ -29,9 +29,9 @@ void disableRainSensor()
 }
 
 
-char* rainSensorReadStateDescription()
+char* readRainSensorStateDescription()
 {
-    updateStateDescription();
+    updateStateDescription();        
     return rainStateDescription;
 }
 
@@ -49,16 +49,16 @@ void rainSensorUpdate()
             case ON:
                 turnOffTreatment();
                 break;
-        }   
+        }
+        rainSensorUpdateRequired = false;       
     }
-    rainSensorUpdateRequired = false;    
 }
 
 
 //=========================[Implementation of private functions]======================//
 void turnOnTreatment()
 {
-    msDelay(DEBOUNCE_RAIN_SENSOR_TIME_MS);
+    delay(DEBOUNCE_RAIN_SENSOR_TIME_MS);
     if(digitalRead(rainSensorDigitalPin) == LOW) 
     {
         rainSensorActivation = ON;
@@ -68,7 +68,7 @@ void turnOnTreatment()
 
 void turnOffTreatment()
 {
-    msDelay(DEBOUNCE_RAIN_SENSOR_TIME_MS);
+    delay(DEBOUNCE_RAIN_SENSOR_TIME_MS);
     if(digitalRead(rainSensorDigitalPin) == HIGH)
     {
         rainSensorActivation = OFF;
@@ -82,10 +82,10 @@ void updateStateDescription()
     {
         int analogRainSensorLecture = getAnalogRainSensorLecture();
 
-        if (analogRainSensorLecture <= 1024 && analogRainSensorLecture > 600)
+        if (analogRainSensorLecture <= DRIZZLE_UPPER_LIMIT && analogRainSensorLecture > DRIZZLE_LOWER_LIMIT)
             rainStateDescription = DRIZZLE_RAIN_DESCRIPTION;
 
-        else if (analogRainSensorLecture <= 600 && analogRainSensorLecture > 400)
+        else if (analogRainSensorLecture <= DRIZZLE_LOWER_LIMIT && analogRainSensorLecture > REGULAR_RAIN_LOWER_LIMIT)
             rainStateDescription = REGULAR_RAIN_DESCRIPTION;
 
         else
@@ -110,7 +110,7 @@ int getAnalogRainSensorLecture()
 }
 
 
-IRAM_ATTR void activateRainSensorUpdateFlag()
+IRAM_ATTR void activateRainSensorUpdateIndicator()
 {
     rainSensorUpdateRequired = true;
 }

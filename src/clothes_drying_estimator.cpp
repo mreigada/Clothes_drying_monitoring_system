@@ -3,8 +3,8 @@
 
 
 //========================[Declaration of Private global variables]===================//
+clothingThickness_t selectedClothinThickness;
 bool clothesEstimatorUpdateRequired;
-clothingThickness_t chosenClothingThickness;
 float savedTemperature;
 float savedHumidity;
 float initialEstimatedDryingTime;
@@ -15,28 +15,31 @@ float estimatedDryingTime;
 void clothesDryingEstimatorInit()
 {
   clothesEstimatorUpdateRequired = false;
+  savedTemperature = 0;
+  savedHumidity = 0;
+  initialEstimatedDryingTime = 0;
+  estimatedDryingTime = 0;
 }
 
 
 void enableClothesDryingEstimator(clothingThickness_t clothingThickness)
 {
-  //Initialization of the estimated drying time
   savedTemperature = dhtSensorReadTemperature();
   savedHumidity = dhtSensorReadHumidity();
-  chosenClothingThickness = clothingThickness;
-  initialEstimatedDryingTime = calculateSecondsToDryClothes(savedTemperature, savedHumidity, chosenClothingThickness);
+  selectedClothinThickness = clothingThickness;
+  initialEstimatedDryingTime = calculateSecondsToDryClothes(savedTemperature, savedHumidity, selectedClothinThickness);
   estimatedDryingTime = initialEstimatedDryingTime;
 
-  //Timer 1 setup
   timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
   timer1_write(TIMER1_25_SECONDS_TICKS_EQUIVALENCE);
-  timer1_attachInterrupt(changeClothesEstimatorUpdateFlag);
+  timer1_attachInterrupt(updateClothesEstimatorIndicators);
 }
 
 
 void disableClothesDryingEstimator()
 {
   timer1_detachInterrupt();
+  timer1_disable();
 }
 
 
@@ -46,32 +49,9 @@ void clothesDryingEstimatorUpdate()
   {
     updateDryingData();
     clothesEstimatorUpdateRequired = false;
-  }
 
-  if(estimatedDryingTime < 0)
-    disableClothesDryingEstimator();
-}
-
-
-//===========================[Implementation of private functions]=====================//
-IRAM_ATTR void changeClothesEstimatorUpdateFlag()
-{
-  clothesEstimatorUpdateRequired = true;
-  estimatedDryingTime = estimatedDryingTime - SECONDS_BETWEEN_UPDATE;
-}
-
-
-void updateDryingData()
-{
-  float currentTemperature = dhtSensorReadTemperature();
-  float currentHumidity = dhtSensorReadHumidity();
-  float auxTime = calculateSecondsToDryClothes(currentTemperature, currentHumidity, chosenClothingThickness);
-
-  if(isnan(currentTemperature) != true && (savedTemperature != currentTemperature || savedHumidity != currentHumidity))
-  {
-     savedTemperature = currentTemperature;
-     savedHumidity = currentHumidity;
-     estimatedDryingTime = auxTime - (initialEstimatedDryingTime - estimatedDryingTime);
+    if(estimatedDryingTime < 0)
+      disableClothesDryingEstimator();
   }
 }
 
@@ -83,11 +63,11 @@ float calculateSecondsToDryClothes(float temperature, float humidity, clothingTh
   switch (thickness)
   {
     case THIN: 
-          secondsToDry = (humidity/temperature)*3600;
+          secondsToDry = 1.5 * (humidity/temperature)*3600;
           break;
     
     case THICK:
-          secondsToDry = 4 * (humidity/temperature)*3600;
+          secondsToDry = 5 * (humidity/temperature)*3600;
           break;
   }
 
@@ -95,48 +75,46 @@ float calculateSecondsToDryClothes(float temperature, float humidity, clothingTh
 }
 
 
-void serialPrintDryingClothesEstimation()
+char* readDryingClothesEstimation()
 {
-  if(estimatedDryingTime > 0)
-  {
-    int minutes = (int) estimatedDryingTime/60;
-    int hours = minutes/60;
-    minutes = minutes%60;
+  char* strEstimation;
 
-    Serial.println(" "); 
-    Serial.print("Temperature: ");
-    Serial.print(savedTemperature);
-    Serial.println("ºC");
-    Serial.print("Humidity: ");
-    Serial.print(savedHumidity);
-    Serial.println("%");
-    Serial.print("Estimated time to complete drying clothes: ");
-    Serial.print(hours);
-    Serial.print("hs. ");
-    Serial.print(minutes);
-    Serial.println(" min.");
-    Serial.println(" ");
+  if(estimatedDryingTime > 60)
+  {
+    strEstimation = secondsToHourFormat(estimatedDryingTime);
   }
 
   else
-    Serial.println("The estimated laundry drying time has already elapsed.");
+    strEstimation = DRYING_TIME_ELAPSED_MSG;
+
+  return strEstimation;
 }
 
 
-char* readDryingClothesEstimation()
+void serialPrintDryingClothesEstimation()
 {
-  char* strEstimation = " ";
+  Serial.println(readDryingClothesEstimation());
+}
 
-  if(estimatedDryingTime > 0)
+
+//===========================[Implementation of private functions]=====================//
+IRAM_ATTR void updateClothesEstimatorIndicators()
+{
+  clothesEstimatorUpdateRequired = true;
+  estimatedDryingTime = estimatedDryingTime - SECONDS_BETWEEN_UPDATE;
+}
+
+
+void updateDryingData()
+{
+  float currentTemperature = dhtSensorReadTemperature();
+  float currentHumidity = dhtSensorReadHumidity();
+  float auxTime = calculateSecondsToDryClothes(currentTemperature, currentHumidity, selectedClothinThickness);
+
+  if(!isnan(currentTemperature) && (savedTemperature != currentTemperature || savedHumidity != currentHumidity))
   {
-    int minutes = (int) estimatedDryingTime/60;
-    int hours = minutes/60;
-    minutes = minutes%60;
-    sprintf(strEstimation, "%d hs. %d min.", hours, minutes);
+     savedTemperature = currentTemperature;
+     savedHumidity = currentHumidity;
+     estimatedDryingTime = auxTime - (initialEstimatedDryingTime - estimatedDryingTime);
   }
-
-  else
-    strEstimation = "The estimated laundry drying time has already elapsed.";
-
-  return strEstimation;
 }
