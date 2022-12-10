@@ -6,6 +6,7 @@
 #include "clothes_drying_estimator.h"
 #include "rain_sensor.h"
 #include "dht_sensor.h"
+#include "led_indicators.h"
 
 
 //==============================[Declaration of private data types]=========================//
@@ -151,11 +152,14 @@ background-color: #f1f1f1;
 </br>
 <div class=configBox>)rawliteral";
 
+
 const char temperature_html[] = R"rawliteral(
 <h2>Temperature: )rawliteral";
 
+
 const char humidity_html[] = R"rawliteral(
 <h2>Humidity: )rawliteral";
+
 
 const char footer_html[] =  R"rawliteral(
 </div>

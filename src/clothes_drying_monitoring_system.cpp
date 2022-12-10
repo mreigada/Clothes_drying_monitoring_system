@@ -5,6 +5,7 @@
 //===========================[Implementation of public functions]=====================//
 void clothesDryingMonitoringSystemInit()
 {
+  ledIndicatorsInit();
   rainSensorInit();
   dhtSensorInit();
   clothesDryingEstimatorInit();
@@ -14,6 +15,7 @@ void clothesDryingMonitoringSystemInit()
 
 void clothesDryingMonitoringSystemUpdate()
 {
+  ledIndicatorsUpdate();
   rainSensorUpdate();
   dhtSensorUpdate();
   clothesDryingEstimatorUpdate();

@@ -7,7 +7,7 @@
 
 //===============================[Declaration of private defines]===========================//
 #define MIN_INTERVAL 2000
-#define dhtSensorDigitalPin D1
+#define DHT_SENSOR_PIN D1
 
 
 //=====================[Declarations (prototypes) of public functions]======================//

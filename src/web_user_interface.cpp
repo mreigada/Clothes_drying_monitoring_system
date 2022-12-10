@@ -102,6 +102,7 @@ void configureSystemForMainMenu()
 		disableClothesDryingEstimator();
 		disableRainSensor();
 		deleteWebUserInterface();
+		ledIndicatorsChangeState(WAITING_FOR_CONFIGURATION);
 		systemAlreadyConfigured = false;
 	}
 }
@@ -113,6 +114,7 @@ void configureSystemForOutdoorThinClothes()
 	{
 		enableClothesDryingEstimator(THIN);
 		enableRainSensor();	
+		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
 }
@@ -124,6 +126,7 @@ void configureSystemForOutdoorThickClothes()
 	{
 		enableClothesDryingEstimator(THICK);
 		enableRainSensor();	
+		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
 }
@@ -134,6 +137,7 @@ void configureSystemForIndoorThinClothes()
 	if(!systemAlreadyConfigured)
 	{
 		enableClothesDryingEstimator(THIN);
+		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
 }
@@ -144,6 +148,7 @@ void configureSystemForIndoorThickClothes()
 	if(!systemAlreadyConfigured)
 	{
 		enableClothesDryingEstimator(THICK);
+		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}	
 }
@@ -154,6 +159,7 @@ void configureSystemForEnviromentalVars()
 	if(!systemAlreadyConfigured)
 	{
 		enableRainSensor();
+		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
 }
@@ -169,7 +175,7 @@ void generateMainMenuHtml()
 void generateOutdoorClothesHtml()
 {
 	char* dryingEstimation = readDryingClothesEstimation();
-	char* rainState = readRainSensorStateDescription();
+	const char* rainState = readRainStateDescription();
 
 	htmlGenerated = (char*) malloc(strlen(drying_html) + strlen(dryingEstimation) + strlen(rainState_html) + strlen(rainState) + strlen(footer_html) + 1);
 	strcpy(htmlGenerated, drying_html);
@@ -193,7 +199,7 @@ void generateIndoorClothesHtml()
 
 void generateEnviromentalVarsHtml()
 {
-	char* rainState = readRainSensorStateDescription();
+	const char* rainState = readRainStateDescription();
 	char temperature[13];
 	char humidity[8];
 	sprintf(temperature, "%0.1f &deg;C", dhtSensorReadTemperature());

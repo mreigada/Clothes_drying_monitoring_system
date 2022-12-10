@@ -3,36 +3,19 @@
 
 //========================[Declaration of Private global variables]===================//
 rainSensorActivation_t rainSensorActivation;
+rainState_t rainState;
 bool rainSensorUpdateRequired;
-char* rainStateDescription;  
+const char* rainStateDescription;  
 
 
 //===========================[Implementation of public functions]=====================//
 void rainSensorInit()
 {
-    pinMode(rainSensorDigitalPin, INPUT);
+    pinMode(RAIN_SENSOR_DIGITAL_PIN, INPUT);
     rainSensorActivation = OFF;
     rainSensorUpdateRequired = false;
-    rainStateDescription = NO_RAIN_DESCRIPTION;
-}
-
-
-void enableRainSensor()
-{
-    attachInterrupt(rainSensorDigitalPin, activateRainSensorUpdateIndicator, CHANGE);
-}
-
-
-void disableRainSensor()
-{
-    detachInterrupt(rainSensorDigitalPin);
-}
-
-
-char* readRainSensorStateDescription()
-{
-    updateStateDescription();        
-    return rainStateDescription;
+    rainState = NO_RAIN;
+    rainStateDescription = noRainDescription;
 }
 
 
@@ -50,8 +33,33 @@ void rainSensorUpdate()
                 turnOffTreatment();
                 break;
         }
+        updateRainState();        
         rainSensorUpdateRequired = false;       
     }
+}
+
+
+void enableRainSensor()
+{
+    attachInterrupt(RAIN_SENSOR_DIGITAL_PIN, activateRainSensorUpdateIndicator, CHANGE);
+}
+
+
+void disableRainSensor()
+{
+    detachInterrupt(RAIN_SENSOR_DIGITAL_PIN);
+}
+
+
+rainState_t readRainState()
+{
+    return rainState;
+}
+
+
+const char* readRainStateDescription()
+{
+    return rainStateDescription;
 }
 
 
@@ -59,7 +67,7 @@ void rainSensorUpdate()
 void turnOnTreatment()
 {
     delay(DEBOUNCE_RAIN_SENSOR_TIME_MS);
-    if(digitalRead(rainSensorDigitalPin) == LOW) 
+    if(digitalRead(RAIN_SENSOR_DIGITAL_PIN) == LOW) 
     {
         rainSensorActivation = ON;
     }
@@ -69,31 +77,43 @@ void turnOnTreatment()
 void turnOffTreatment()
 {
     delay(DEBOUNCE_RAIN_SENSOR_TIME_MS);
-    if(digitalRead(rainSensorDigitalPin) == HIGH)
+    if(digitalRead(RAIN_SENSOR_DIGITAL_PIN) == HIGH)
     {
         rainSensorActivation = OFF;
     }
 }
 
 
-void updateStateDescription()
+void updateRainState()
 {
     if(rainSensorActivation == ON)
     {
         int analogRainSensorLecture = getAnalogRainSensorLecture();
 
         if (analogRainSensorLecture <= DRIZZLE_UPPER_LIMIT && analogRainSensorLecture > DRIZZLE_LOWER_LIMIT)
-            rainStateDescription = DRIZZLE_RAIN_DESCRIPTION;
+        {
+            rainState = DRIZZLE_RAIN;
+            rainStateDescription = drizzleRainDescription;
+        }
 
         else if (analogRainSensorLecture <= DRIZZLE_LOWER_LIMIT && analogRainSensorLecture > REGULAR_RAIN_LOWER_LIMIT)
-            rainStateDescription = REGULAR_RAIN_DESCRIPTION;
+        {
+            rainState = REGULAR_RAIN;
+            rainStateDescription = regularRainDescription;
+        }
 
         else
-            rainStateDescription = HEAVY_RAIN_DESCRIPTION;
+        {
+            rainState = HEAVY_RAIN;
+            rainStateDescription = heavyRainDescription;
+        }
     }
 
     else
-        rainStateDescription = NO_RAIN_DESCRIPTION;
+    {
+        rainState = NO_RAIN;
+        rainStateDescription = noRainDescription;
+    }
 }
 
 
@@ -102,7 +122,7 @@ int getAnalogRainSensorLecture()
     int analogRainSensorLecture = 0;
 
     for(int i = 0; i < 1024; i++)
-        analogRainSensorLecture = analogRainSensorLecture + analogRead(rainSensorAnalogPin);
+        analogRainSensorLecture = analogRainSensorLecture + analogRead(RAIN_SENSOR_ANALOG_PIN);
     
     analogRainSensorLecture = analogRainSensorLecture/1024;
 

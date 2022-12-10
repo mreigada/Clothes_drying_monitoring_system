@@ -7,6 +7,7 @@
 #include "dht_sensor.h"
 #include "clothes_drying_estimator.h"
 #include "wifi_com.h"
+#include "led_indicators.h"
 
 
 //==============================[Declaration of public defines]=============================//

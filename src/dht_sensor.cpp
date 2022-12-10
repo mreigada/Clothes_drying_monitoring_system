@@ -14,7 +14,7 @@ bool lastresult;
 //===========================[Implementation of public functions]=====================//
 void dhtSensorInit(void) 
 {
-  pinMode(dhtSensorDigitalPin, INPUT_PULLUP);
+  pinMode(DHT_SENSOR_PIN, INPUT_PULLUP);
   // Using this value makes sure that millis() - lastreadtime will be
   // >= MIN_INTERVAL right away. Note that this assignment wraps around,
   // but so will the subtraction.
@@ -103,22 +103,22 @@ boolean read(bool force)
 
   // Go into high impedence state to let pull-up raise data line level and
   // start the reading process.
-  digitalWrite(dhtSensorDigitalPin, HIGH);
+  digitalWrite(DHT_SENSOR_PIN, HIGH);
   delay(250);
 
   // First set data line low for 20 milliseconds.
-  pinMode(dhtSensorDigitalPin, OUTPUT);
-  digitalWrite(dhtSensorDigitalPin, LOW);
+  pinMode(DHT_SENSOR_PIN, OUTPUT);
+  digitalWrite(DHT_SENSOR_PIN, LOW);
   delay(20);
 
   uint32_t cycles[80];
   {
     // End the start signal by setting data line high for 40 microseconds.
-    digitalWrite(dhtSensorDigitalPin, HIGH);
+    digitalWrite(DHT_SENSOR_PIN, HIGH);
     delayMicroseconds(40);
 
     // Now start reading the data line to get the value from the DHT sensor.
-    pinMode(dhtSensorDigitalPin, INPUT_PULLUP);
+    pinMode(DHT_SENSOR_PIN, INPUT_PULLUP);
     delayMicroseconds(10);  // Delay a bit to let sensor pull data line low.
 
     // First expect a low signal for ~80 microseconds followed by a high signal
@@ -200,7 +200,7 @@ uint32_t expectPulse(bool level)
   uint32_t count = 0;
   // On AVR platforms use direct GPIO port access as it's much faster and better
   // for catching pulses that are 10's of microseconds in length:
-  while (digitalRead(dhtSensorDigitalPin) == level) 
+  while (digitalRead(DHT_SENSOR_PIN) == level) 
   {
       if (count++ >= maxcycles) 
       {
