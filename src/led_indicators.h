@@ -17,13 +17,13 @@ typedef enum
     CONNECTION_ERROR,
     WAITING_FOR_CONFIGURATION,
     SYSTEM_IN_EXECUTION,
-} led_indicators_t;
+} ledIndicatorsState_t;
 
 
 //=====================[Declarations (prototypes) of public functions]======================//
 void ledIndicatorsInit();
 void ledIndicatorsUpdate();
-void ledIndicatorsChangeState(led_indicators_t newState);
+void ledIndicatorsChangeState(ledIndicatorsState_t newState);
 
 //=====================[Declarations (prototypes) of private functions]=====================//   
 void connectionErrorTreatment();

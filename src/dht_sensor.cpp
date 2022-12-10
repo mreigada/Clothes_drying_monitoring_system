@@ -4,11 +4,11 @@
 
 //========================[Declaration of Private global variables]===================//
 uint8_t data[5];
-uint32_t lastreadtime;
-uint32_t maxcycles;
+uint32_t lastReadTime;
+uint32_t maxCycles;
 float dhtSensorHumidity;
 float dhtSensorTemperature;
-bool lastresult;
+bool lastResult;
 
 
 //===========================[Implementation of public functions]=====================//
@@ -18,8 +18,8 @@ void dhtSensorInit(void)
   // Using this value makes sure that millis() - lastreadtime will be
   // >= MIN_INTERVAL right away. Note that this assignment wraps around,
   // but so will the subtraction.
-  lastreadtime = -MIN_INTERVAL;
-  maxcycles = microsecondsToClockCycles(1000);
+  lastReadTime = -MIN_INTERVAL;
+  maxCycles = microsecondsToClockCycles(1000);
   dhtSensorHumidity = 0;
   dhtSensorTemperature = 0;
 }
@@ -89,11 +89,11 @@ boolean read(bool force)
   // to use last reading.
   uint32_t currenttime = millis();
 
-  if (!force && ((currenttime - lastreadtime) < 2000)) 
+  if (!force && ((currenttime - lastReadTime) < 2000)) 
   {
-    return lastresult; // return last correct measurement
+    return lastResult; // return last correct measurement
   }
-  lastreadtime = currenttime;
+  lastReadTime = currenttime;
 
   // Reset 40 bits of received data to zero.
   data[0] = data[1] = data[2] = data[3] = data[4] = 0;
@@ -125,14 +125,14 @@ boolean read(bool force)
     // for ~80 microseconds again.
     if (expectPulse(LOW) == 0) 
     {
-      lastresult = false;
-      return lastresult;
+      lastResult = false;
+      return lastResult;
     }
 
     if (expectPulse(HIGH) == 0) 
     {
-      lastresult = false;
-      return lastresult;
+      lastResult = false;
+      return lastResult;
     }
 
     // Now read the 40 bits sent by the sensor.  Each bit is sent as a 50
@@ -159,8 +159,8 @@ boolean read(bool force)
 
     if ((lowCycles == 0) || (highCycles == 0)) 
     {
-      lastresult = false;
-      return lastresult;
+      lastResult = false;
+      return lastResult;
     }
     data[i/8] <<= 1;
     // Now compare the low and high cycle times to see if the bit is a 0 or 1.
@@ -177,14 +177,14 @@ boolean read(bool force)
   // Check we read 40 bits and that the checksum matches.
   if (data[4] == ((data[0] + data[1] + data[2] + data[3]) & 0xFF)) 
   {
-    lastresult = true;
-    return lastresult;
+    lastResult = true;
+    return lastResult;
   }
 
   else 
   {
-    lastresult = false;
-    return lastresult;
+    lastResult = false;
+    return lastResult;
   }
 }
 
@@ -202,7 +202,7 @@ uint32_t expectPulse(bool level)
   // for catching pulses that are 10's of microseconds in length:
   while (digitalRead(DHT_SENSOR_PIN) == level) 
   {
-      if (count++ >= maxcycles) 
+      if (count++ >= maxCycles) 
       {
         return 0; // Exceeded timeout, fail.
       }

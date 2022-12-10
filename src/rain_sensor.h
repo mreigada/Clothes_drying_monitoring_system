@@ -13,6 +13,8 @@
 #define DRIZZLE_LOWER_LIMIT   600
 #define REGULAR_RAIN_LOWER_LIMIT   400
 
+
+//===============================[Declaration of private variables]=========================//
 const char noRainDescription[] = "there is no rain";
 const char drizzleRainDescription[] = "drizzle";
 const char regularRainDescription[] = "regular rain";
@@ -24,7 +26,7 @@ typedef enum
 {
     ON,
     OFF
-} rainSensorActivation_t;
+} rainSensorActivationState_t;
 
 typedef enum
 {

@@ -2,7 +2,7 @@
 #include "rain_sensor.h"
 
 //========================[Declaration of Private global variables]===================//
-rainSensorActivation_t rainSensorActivation;
+rainSensorActivationState_t rainSensorActivation;
 rainState_t rainState;
 bool rainSensorUpdateRequired;
 const char* rainStateDescription;  
