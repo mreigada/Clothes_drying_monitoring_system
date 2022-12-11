@@ -5,6 +5,7 @@
 //========================[Declaration of Private global variables]===================//
 WiFiServer server(80);
 WiFiClient client;
+WiFiClientSecure externalClient;
 wifiComState_t wifiComState;
 String httpRequestLine;
 
@@ -51,7 +52,6 @@ void wifiComUpdate()
 
 void sendNotification(String title, String body) 
 {
-	WiFiClientSecure externalClient;
 	externalClient.setInsecure();
 	externalClient.connect(host, 443);
 
@@ -67,7 +67,7 @@ bool wifiEstablishConnection()
 {
 	bool connectionEstablished = false;	
 
-    WiFi.begin(SSID, PASSWORD);
+    WiFi.begin(SSID, password);
 
 	for(int i = 0; i <= MAX_CONNECTION_ATTEMPTS; i++)
 	{

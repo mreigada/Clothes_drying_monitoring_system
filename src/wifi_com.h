@@ -8,13 +8,13 @@
 
 
 //===============================[Declaration of private defines]===========================//
-#define SSID "Home signal"
-#define PASSWORD "kneesocks12"
 #define MAX_CONNECTION_ATTEMPTS 10
 
 
 //===============================[Declaration of private variables]===========================//
-const char apiKey[] = "o.0LLdoAE6L4FxN7UjOhS7S44CcfGaBhRk";
+const char SSID[] = "SSID";
+const char password[] = "password";
+const char apiKey[] = "apiKey";
 const char host[] = "api.pushbullet.com"; 
 
 
