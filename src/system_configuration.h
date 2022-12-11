@@ -7,8 +7,8 @@
 #include "rain_sensor.h"
 #include "dht_sensor.h"
 #include "led_indicators.h"
+#include "wifi_com.h"
 #include "web_user_interface.h"
-
 
 //===============================[Declaration of private defines]===========================//
 
@@ -43,6 +43,8 @@ void configureSystemForIndoorThinClothes();
 void configureSystemForIndoorThickClothes();
 void configureSystemForEnviromentalVars();
 void configureSystemForErrorIndication();
+void setRainNotification();
+void setDriedClothesNotification();
 
 
 //=================================[#include guards - end]==================================//

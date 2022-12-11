@@ -4,6 +4,7 @@
 
 //========================[Declaration of Private global variables]===================//
 clothingThickness_t selectedClothinThickness;
+runningState_t runningState;
 bool clothesEstimatorUpdateRequired;
 float savedTemperature;
 float savedHumidity;
@@ -15,6 +16,7 @@ float estimatedDryingTime;
 void clothesDryingEstimatorInit()
 {
   clothesEstimatorUpdateRequired = false;
+  runningState = STOPPED;
   savedTemperature = 0;
   savedHumidity = 0;
   initialEstimatedDryingTime = 0;
@@ -33,6 +35,8 @@ void enableClothesDryingEstimator(clothingThickness_t clothingThickness)
   timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
   timer1_write(TIMER1_25_SECONDS_TICKS_EQUIVALENCE);
   timer1_attachInterrupt(updateClothesEstimatorIndicators);
+
+  runningState = RUNNING;
 }
 
 
@@ -51,7 +55,10 @@ void clothesDryingEstimatorUpdate()
     clothesEstimatorUpdateRequired = false;
 
     if(estimatedDryingTime < 0)
+    {
       disableClothesDryingEstimator();
+      runningState = STOPPED;
+    }
   }
 }
 
@@ -75,11 +82,17 @@ float calculateSecondsToDryClothes(float temperature, float humidity, clothingTh
 }
 
 
+runningState_t readClothesDryingEstimationState()
+{
+  return runningState;
+}
+
+
 char* readDryingClothesEstimation()
 {
   char* strEstimation;
 
-  if(estimatedDryingTime > 60)
+  if(estimatedDryingTime > 0)
   {
     strEstimation = secondsToHourFormat(estimatedDryingTime);
   }

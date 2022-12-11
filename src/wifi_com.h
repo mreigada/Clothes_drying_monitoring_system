@@ -13,6 +13,11 @@
 #define MAX_CONNECTION_ATTEMPTS 10
 
 
+//===============================[Declaration of private variables]===========================//
+const char apiKey[] = "o.0LLdoAE6L4FxN7UjOhS7S44CcfGaBhRk";
+const char host[] = "api.pushbullet.com"; 
+
+
 //=============================[Declaration of private data types]==========================//
 typedef enum {
    WIFI_STATE_INIT,
@@ -23,10 +28,15 @@ typedef enum {
 } wifiComState_t;
 
 
+//===============================[Declaration of private variables]===========================//
+
+
+
+
 //=====================[Declarations (prototypes) of public functions]======================//
 void wifiComInit();
 void wifiComUpdate();
-
+void sendNotification(String titulo,String mensaje);
 
 //=====================[Declarations (prototypes) of private functions]======================//
 bool wifiEstablishConnection();
@@ -34,7 +44,6 @@ void wifiServerInit();
 void wifiReadRequest();
 void wifiSendHtml();
 void wifiErrorTreatment();
-
 
 //=================================[#include guards - end]==================================//
 

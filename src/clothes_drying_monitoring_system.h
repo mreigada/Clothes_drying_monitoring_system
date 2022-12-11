@@ -13,7 +13,7 @@
 
 
 //==============================[Declaration of public defines]=============================//
-#define SYSTEM_TIME_DELAY_MS   5
+#define SYSTEM_TIME_DELAY_MS   50
 
 
 //=======================[Declarations (prototypes) of public functions]====================//

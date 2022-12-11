@@ -49,6 +49,19 @@ void wifiComUpdate()
 }
 
 
+void sendNotification(String title, String body) 
+{
+	WiFiClientSecure externalClient;
+	externalClient.setInsecure();
+	externalClient.connect(host, 443);
+
+  	String message = "{\"type\": \"note\", \"title\": \"" + title + "\", \"body\": \"" + body + "\"}\r\n";
+
+  	externalClient.print(String("POST ") + "/v2/pushes" + " HTTP/1.1\r\n" + "Host: api.pushbullet.com" + "\r\n" + "Authorization: Bearer " + apiKey + "\r\n" +
+               "Content-Type: application/json\r\n" + "Content-Length: " + String(message.length()) + "\r\n\r\n" + message);
+}
+
+
 //===========================[Implementation of private functions]=====================//
 bool wifiEstablishConnection()
 {

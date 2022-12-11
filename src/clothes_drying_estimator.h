@@ -25,6 +25,12 @@ typedef enum
     THICK
 } clothingThickness_t;
 
+typedef enum
+{
+    RUNNING,
+    STOPPED
+} runningState_t;
+
 
 //=======================[Declarations (prototypes) of public functions]====================//
 void clothesDryingEstimatorInit();
@@ -32,6 +38,7 @@ void clothesDryingEstimatorUpdate();
 void enableClothesDryingEstimator(clothingThickness_t clothingThickness);
 void disableClothesDryingEstimator();
 float calculateSecondsToDryClothes(float temperature, float humidity, clothingThickness_t thickness);
+runningState_t readClothesDryingEstimationState();
 char* readDryingClothesEstimation();
 void serialPrintDryingClothesEstimation();
 

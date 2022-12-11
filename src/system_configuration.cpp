@@ -4,6 +4,8 @@
 //========================[Declaration of Private global variables]===================//
 configuration_t selectedConfig;
 bool systemAlreadyConfigured;
+bool rainAlreadyNotified;
+bool driedClothesAlreadyNotified;
 
 
 //===========================[Implementation of public functions]=====================//
@@ -11,6 +13,8 @@ void systemConfigurationInit()
 {
     selectedConfig = INIT_CONFIG;
     systemAlreadyConfigured = false;
+	rainAlreadyNotified = false;
+	driedClothesAlreadyNotified = false;
 }
 
 
@@ -64,8 +68,6 @@ void setSystemConfiguration(configuration_t newConfiguration)
 
 void setSystemConfigurationUsingHttpLine(String httpLine)
 {
-	selectedConfig = UNKNOWN_CONFIG;
-
 	if(httpLine == "GET / HTTP/1.1")
 		selectedConfig = IDLE_CONFIG;
 
@@ -105,6 +107,8 @@ void configureSystemAsIdle()
 		disableClothesDryingEstimator();
 		disableRainSensor();
 		ledIndicatorsChangeState(WAITING_FOR_CONFIGURATION);
+		rainAlreadyNotified = false;
+		driedClothesAlreadyNotified = false;
 		systemAlreadyConfigured = false;
 	}
 }
@@ -120,6 +124,8 @@ void configureSystemForOutdoorThinClothes()
 		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
+	setRainNotification();
+	setDriedClothesNotification();
 }
 
 
@@ -133,6 +139,8 @@ void configureSystemForOutdoorThickClothes()
 		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
+	setRainNotification();
+	setDriedClothesNotification();
 }
 
 
@@ -145,6 +153,7 @@ void configureSystemForIndoorThinClothes()
 		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
+	setDriedClothesNotification();
 }
 
 
@@ -156,7 +165,8 @@ void configureSystemForIndoorThickClothes()
 		enableClothesDryingEstimator(THICK);
 		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
-	}	
+	}
+	setDriedClothesNotification();	
 }
 
 
@@ -169,10 +179,38 @@ void configureSystemForEnviromentalVars()
 		ledIndicatorsChangeState(SYSTEM_IN_EXECUTION);
 		systemAlreadyConfigured = true;				
 	}
+	setRainNotification();
 }
 
 
 void configureSystemForErrorIndication()
 {
 	ledIndicatorsChangeState(CONNECTION_ERROR);
+}
+
+
+void setRainNotification()
+{
+	if(readRainState() != NO_RAIN && !rainAlreadyNotified)
+	{
+		sendNotification("Clothes drying monitoring system", readRainStateDescription());
+		rainAlreadyNotified = true;
+	}
+		
+
+	if(readRainState() == NO_RAIN && rainAlreadyNotified)
+	{
+		sendNotification("Clothes drying monitoring system", "The rain has stopped.");
+		rainAlreadyNotified = false;
+	}	
+}
+
+
+void setDriedClothesNotification()
+{
+	if(readClothesDryingEstimationState() != RUNNING && !driedClothesAlreadyNotified)
+	{
+		sendNotification("Clothes drying monitoring system", readDryingClothesEstimation());
+		driedClothesAlreadyNotified = true;
+	}
 }
