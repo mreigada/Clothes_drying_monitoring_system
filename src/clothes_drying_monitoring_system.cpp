@@ -10,6 +10,8 @@ void clothesDryingMonitoringSystemInit()
   dhtSensorInit();
   clothesDryingEstimatorInit();
   wifiComInit();
+  systemConfigurationInit();
+  webUserInterfaceInit();
 }
 
 
@@ -20,5 +22,7 @@ void clothesDryingMonitoringSystemUpdate()
   dhtSensorUpdate();
   clothesDryingEstimatorUpdate();
   wifiComUpdate();
-  delay(SYSTEM_TIME_INCREMENT_MS);
+  systemConfigurationUpdate();
+  webUserInterfaceUpdate();
+  delay(SYSTEM_TIME_DELAY_MS);
 }

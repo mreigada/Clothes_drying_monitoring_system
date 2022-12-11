@@ -12,7 +12,11 @@
 #define dhtSensorPin D1
 #define TIMER1_25_SECONDS_TICKS_EQUIVALENCE 7812500
 #define SECONDS_BETWEEN_UPDATE 25
-#define DRYING_TIME_ELAPSED_MSG "The estimated laundry drying time has already elapsed."
+
+
+//===============================[Declaration of private variables]=========================//
+const char dryingTimeElapsedMsg[] = "The estimated laundry drying time has already elapsed.";
+
 
 //==============================[Declaration of public data types]==========================//
 typedef enum

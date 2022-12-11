@@ -6,7 +6,10 @@
 #include "clothes_drying_estimator.h"
 #include "rain_sensor.h"
 #include "dht_sensor.h"
-#include "led_indicators.h"
+
+
+//===============================[Declaration of private defines]===========================//
+#define HTML_GENERATED_MAX_LENGTH  (2000 + 1)    
 
 
 //==============================[Declaration of private data types]=========================//
@@ -22,6 +25,7 @@ typedef enum
 } html_t;
 
 
+//===============================[Declaration of private variables]=========================//
 const char index_html[] = R"rawliteral(	
 <!DOCTYPE html><html><head>
 <title>Clothes drying monitoring system</title>
@@ -172,22 +176,15 @@ const char footer_html[] =  R"rawliteral(
 
 //=======================[Declarations (prototypes) of public functions]====================//
 void webUserInterfaceInit();
-char* getWebUserInterface(String httpRequestLine);
-
+void webUserInterfaceUpdate();
+void setWebUserInterface(html_t newHtmlRequired);
+char* getWebUserInterface();
 
 //=======================[Declarations (prototypes) of private functions]====================//
-html_t getRequiredHtmlType(String httpRequestLine);
-void deleteWebUserInterface();
 void generateMainMenuHtml();
 void generateOutdoorClothesHtml();
 void generateIndoorClothesHtml();
 void generateEnviromentalVarsHtml();
-void configureSystemForMainMenu();
-void configureSystemForOutdoorThinClothes();
-void configureSystemForOutdoorThickClothes();
-void configureSystemForIndoorThinClothes();
-void configureSystemForIndoorThickClothes();
-void configureSystemForEnviromentalVars();
 
 //=================================[#include guards - end]==================================//
 

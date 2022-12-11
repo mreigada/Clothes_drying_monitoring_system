@@ -85,7 +85,7 @@ char* readDryingClothesEstimation()
   }
 
   else
-    strEstimation = DRYING_TIME_ELAPSED_MSG;
+    strEstimation = (char*) dryingTimeElapsedMsg;
 
   return strEstimation;
 }

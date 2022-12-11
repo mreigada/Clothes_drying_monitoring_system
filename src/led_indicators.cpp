@@ -26,6 +26,7 @@ void ledIndicatorsUpdate()
     switch (ledIndicatorState)
     {
         case MODULE_INITIALIZED:
+            initTreatment();
             break;
 
         case CONNECTION_ERROR:
@@ -50,6 +51,13 @@ void ledIndicatorsChangeState(ledIndicatorsState_t newState)
 
 
 //=========================[Implementation of private functions]======================//
+void initTreatment()
+{
+    digitalWrite(GREEN_LED_PIN, HIGH);
+    digitalWrite(YELLOW_LED_PIN, HIGH);
+    digitalWrite(RED_LED_PIN, HIGH);
+}
+
 void connectionErrorTreatment()
 {
     digitalWrite(GREEN_LED_PIN, LOW);

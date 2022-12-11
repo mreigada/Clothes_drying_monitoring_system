@@ -22,19 +22,24 @@ void wifiComUpdate()
 	 {
 		case WIFI_STATE_INIT:
 			if(wifiEstablishConnection())
-				wifiComState = WIFI_READ_REQUEST;
+				wifiComState = WIFI_STATE_SERVER_INIT;
 			else
 				wifiComState = WIFI_STATE_ERROR;
 			break;
 
-		case WIFI_READ_REQUEST:
+		case WIFI_STATE_SERVER_INIT:
+			wifiServerInit();
+			wifiComState = WIFI_STATE_READ_REQUEST;
+			break;
+
+		case WIFI_STATE_READ_REQUEST:
 			wifiReadRequest();
 			wifiComState = WIFI_STATE_SEND_HTML;
 			break;
 
 		case WIFI_STATE_SEND_HTML:
 			wifiSendHtml();
-			wifiComState = WIFI_READ_REQUEST;
+			wifiComState = WIFI_STATE_READ_REQUEST;
 			break;
 
 		case WIFI_STATE_ERROR:
@@ -47,53 +52,53 @@ void wifiComUpdate()
 //===========================[Implementation of private functions]=====================//
 bool wifiEstablishConnection()
 {
-	bool establishedConnection = false;	
+	bool connectionEstablished = false;	
 
     WiFi.begin(SSID, PASSWORD);
 
 	for(int i = 0; i <= MAX_CONNECTION_ATTEMPTS; i++)
 	{
 		if(WiFi.status() != WL_CONNECTED)
-		{
-			delay(2000);
-		}
+			delay(1000);
 
 		else
 		{
-			server.begin();
-			webUserInterfaceInit();
-			ledIndicatorsChangeState(WAITING_FOR_CONFIGURATION);
-			establishedConnection = true;
+			connectionEstablished = true;
 			break;
 		}
 	}
 
-	return establishedConnection;
+	return connectionEstablished;
+}
+
+
+void wifiServerInit()
+{
+	server.begin();
 }
 
 
 void wifiReadRequest()
 {
-    client = server.available();
-
+	client = server.available();
     if(client)
 	{
 		while (!client.available() && client.connected())
 			delay (1);
 
-		httpRequestLine = client.readStringUntil('\r');
+		setSystemConfigurationUsingHttpLine(client.readStringUntil('\r'));
 	}
 }
 
 
 void wifiSendHtml()
 {
-	client.print(getWebUserInterface(httpRequestLine));
+	client.print(getWebUserInterface());
 	client.flush();
 }
 
 
 void wifiErrorTreatment()
 {
-	ledIndicatorsChangeState(CONNECTION_ERROR);
+	setSystemConfiguration(ERROR_CONFIG);
 }

@@ -25,7 +25,8 @@ void ledIndicatorsInit();
 void ledIndicatorsUpdate();
 void ledIndicatorsChangeState(ledIndicatorsState_t newState);
 
-//=====================[Declarations (prototypes) of private functions]=====================//   
+//=====================[Declarations (prototypes) of private functions]=====================//
+void initTreatment();   
 void connectionErrorTreatment();
 void waitingConfigurationTreatment();
 void systemExeTreatment();
