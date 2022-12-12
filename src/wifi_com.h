@@ -12,9 +12,9 @@
 
 
 //===============================[Declaration of private variables]===========================//
-const char SSID[] = "Home signal";
-const char password[] = "kneesocks12";
-const char apiKey[] = "o.0LLdoAE6L4FxN7UjOhS7S44CcfGaBhRk";
+const char SSID[] = "-";
+const char password[] = "-";
+const char apiKey[] = "-";
 const char host[] = "api.pushbullet.com"; 
 
 
