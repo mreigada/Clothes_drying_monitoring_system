@@ -70,11 +70,11 @@ float calculateSecondsToDryClothes(float temperature, float humidity, clothingTh
   switch (thickness)
   {
     case THIN: 
-          secondsToDry = 1.5 * (humidity/temperature)*3600;
+          secondsToDry = 1.5 * (humidity/temperature) * 180 + 7200;
           break;
     
     case THICK:
-          secondsToDry = 5 * (humidity/temperature)*3600;
+          secondsToDry = 5 * (humidity/temperature) * 180 + 10800;
           break;
   }
 

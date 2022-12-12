@@ -12,9 +12,9 @@
 
 
 //===============================[Declaration of private variables]===========================//
-const char SSID[] = "SSID";
-const char password[] = "password";
-const char apiKey[] = "apiKey";
+const char SSID[] = "Home signal";
+const char password[] = "kneesocks12";
+const char apiKey[] = "o.0LLdoAE6L4FxN7UjOhS7S44CcfGaBhRk";
 const char host[] = "api.pushbullet.com"; 
 
 
@@ -23,7 +23,7 @@ typedef enum {
    WIFI_STATE_INIT,
    WIFI_STATE_SERVER_INIT,
    WIFI_STATE_READ_REQUEST,
-   WIFI_STATE_SEND_HTML,
+   WIFI_STATE_ATTEND_REQUEST,
    WIFI_STATE_ERROR
 } wifiComState_t;
 
@@ -32,18 +32,19 @@ typedef enum {
 
 
 
-
 //=====================[Declarations (prototypes) of public functions]======================//
 void wifiComInit();
 void wifiComUpdate();
-void sendNotification(String titulo,String mensaje);
+void sendNotification(String title,String body);
+
 
 //=====================[Declarations (prototypes) of private functions]======================//
 bool wifiEstablishConnection();
 void wifiServerInit();
-void wifiReadRequest();
-void wifiSendHtml();
+bool wifiReadRequest();
+void wifiAttendRequest();
 void wifiErrorTreatment();
+
 
 //=================================[#include guards - end]==================================//
 

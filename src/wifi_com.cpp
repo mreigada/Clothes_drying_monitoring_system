@@ -34,12 +34,12 @@ void wifiComUpdate()
 			break;
 
 		case WIFI_STATE_READ_REQUEST:
-			wifiReadRequest();
-			wifiComState = WIFI_STATE_SEND_HTML;
+			if(wifiReadRequest())
+				wifiComState = WIFI_STATE_ATTEND_REQUEST;
 			break;
 
-		case WIFI_STATE_SEND_HTML:
-			wifiSendHtml();
+		case WIFI_STATE_ATTEND_REQUEST:
+			wifiAttendRequest();
 			wifiComState = WIFI_STATE_READ_REQUEST;
 			break;
 
@@ -91,8 +91,9 @@ void wifiServerInit()
 }
 
 
-void wifiReadRequest()
+bool wifiReadRequest()
 {
+	bool attentionRequired = false;
 	client = server.available();
     if(client)
 	{
@@ -100,11 +101,14 @@ void wifiReadRequest()
 			delay (1);
 
 		setSystemConfigurationUsingHttpLine(client.readStringUntil('\r'));
+		attentionRequired = true;
 	}
+
+	return attentionRequired;
 }
 
 
-void wifiSendHtml()
+void wifiAttendRequest()
 {
 	client.print(getWebUserInterface());
 	client.flush();
