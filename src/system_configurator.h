@@ -1,9 +1,9 @@
 //================================[#include guards - begin]=================================//
-#ifndef _SYSTEM_CONFIGURATION_H_
-#define _SYSTEM_CONFIGURATION_H_
+#ifndef _SYSTEM_CONFIGURATOR_H_
+#define _SYSTEM_CONFIGURATOR_H_
 
 #include <ESP8266WiFi.h>
-#include "clothes_drying_estimator.h"
+#include "clothes_drying_time_calculator.h"
 #include "rain_sensor.h"
 #include "dht_sensor.h"
 #include "led_indicators.h"

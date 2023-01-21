@@ -3,7 +3,7 @@
 #define _WEB_USER_INTERFACE_H_
 
 #include <ESP8266WiFi.h>
-#include "clothes_drying_estimator.h"
+#include "clothes_drying_time_calculator.h"
 #include "rain_sensor.h"
 #include "dht_sensor.h"
 

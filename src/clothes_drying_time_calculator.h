@@ -1,6 +1,6 @@
 //================================[#include guards - begin]=================================//
-#ifndef _CLOTHES_DRYING_ESTIMATOR_H_
-#define _CLOTHES_DRYING_ESTIMATOR_H_
+#ifndef _CLOTHES_DRYING_TIME_CALCULATOR_H_
+#define _CLOTHES_DRYING_TIME_CALCULATOR_H_
 
 #include <ESP8266WiFi.h>
 #include "dht_sensor.h"

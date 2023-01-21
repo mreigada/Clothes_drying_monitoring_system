@@ -1,5 +1,5 @@
 //========================================[Libraries]=================================//
-#include "system_configuration.h"
+#include "system_configurator.h"
 
 //========================[Declaration of Private global variables]===================//
 configuration_t selectedConfig;

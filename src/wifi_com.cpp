@@ -81,6 +81,8 @@ bool wifiEstablishConnection()
 		}
 	}
 
+	Serial.begin(9600);
+	Serial.println(WiFi.localIP());
 	return connectionEstablished;
 }
 

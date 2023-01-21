@@ -1,5 +1,5 @@
 //======================================[Libraries]===================================//
-#include "clothes_drying_estimator.h"
+#include "clothes_drying_time_calculator.h"
 
 
 //========================[Declaration of Private global variables]===================//

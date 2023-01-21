@@ -3,7 +3,7 @@
 #define _WIFI_COM_H_
 
 #include <ESP8266WiFi.h>
-#include "system_configuration.h"
+#include "system_configurator.h"
 #include "web_user_interface.h"
 
 
@@ -12,9 +12,9 @@
 
 
 //===============================[Declaration of private variables]===========================//
-const char SSID[] = "-";
-const char password[] = "-";
-const char apiKey[] = "-";
+const char SSID[] = "Home signal";
+const char password[] = "kneesocks12";
+const char apiKey[] = "o.0LLdoAE6L4FxN7UjOhS7S44CcfGaBhRk";
 const char host[] = "api.pushbullet.com"; 
 
 

@@ -6,9 +6,9 @@
 
 
 //===============================[Declaration of private defines]===========================//
-#define RED_LED_PIN D8
+#define RED_LED_PIN D6
 #define YELLOW_LED_PIN D7
-#define GREEN_LED_PIN  D6
+#define GREEN_LED_PIN  D8
 
 //==============================[Declaration of private data types]=========================//
 typedef enum

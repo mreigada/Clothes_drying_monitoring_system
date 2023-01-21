@@ -6,9 +6,9 @@
 #include "led_indicators.h"
 #include "rain_sensor.h"
 #include "dht_sensor.h"
-#include "clothes_drying_estimator.h"
+#include "clothes_drying_time_calculator.h"
 #include "wifi_com.h"
-#include "system_configuration.h"
+#include "system_configurator.h"
 #include "web_user_interface.h"
 
 
