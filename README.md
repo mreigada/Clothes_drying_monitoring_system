@@ -28,4 +28,4 @@ Para cargar el programa en la placa de desarrollo se requiere utilizar el plugin
 
 
 ## Documentación
-La documentación tanto del código como del proyecto en sí estará disponible en el siguiente [enlace](https://github.com/mreigada/Clothes_drying_monitoring_system).
+La documentación tanto del código como del proyecto en sí estará disponible en el siguiente [enlace](https://docs.google.com/document/d/1M8HKhcYP2v-2SKNnl4K0idu1IjOEy0Cq/edit?usp=sharing&ouid=116164723835517603545&rtpof=true&sd=true).
