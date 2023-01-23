@@ -10,7 +10,7 @@ wifiComState_t wifiComState;
 String httpRequestLine;
 
 
-//===========================[Implementation of public functions]=========================//
+//============================[Implementation of public functions]=========================//
 void wifiComInit()
 {
     wifiComState = WIFI_STATE_INIT;

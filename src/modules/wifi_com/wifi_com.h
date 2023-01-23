@@ -11,7 +11,7 @@
 #define MAX_CONNECTION_ATTEMPTS 10
 
 
-//===============================[Declaration of private variables]===========================//
+//===============================[Declaration of private variables]=========================//
 const char SSID[] = "Home signal";
 const char password[] = "kneesocks12";
 const char apiKey[] = "o.0LLdoAE6L4FxN7UjOhS7S44CcfGaBhRk";
@@ -28,7 +28,7 @@ typedef enum {
 } wifiComState_t;
 
 
-//===============================[Declaration of private variables]===========================//
+//===============================[Declaration of private variables]=========================//
 
 
 
@@ -38,7 +38,7 @@ void wifiComUpdate();
 void sendNotification(String title,String body);
 
 
-//=====================[Declarations (prototypes) of private functions]======================//
+//=====================[Declarations (prototypes) of private functions]=====================//
 bool wifiEstablishConnection();
 void wifiServerInit();
 bool wifiReadRequest();
