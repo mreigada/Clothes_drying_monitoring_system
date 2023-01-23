@@ -48,4 +48,4 @@ void updateDryingData();
 
 //=================================[#include guards - end]==================================//
 
-#endif // _CLOTHES_DRYING_ESTIMATOR_H_
+#endif // _CLOTHES_DRYING_TIME_CALCULATOR_H_
