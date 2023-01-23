@@ -2,7 +2,7 @@
 #include "wifi_com.h"
 
 
-//========================[Declaration of Private global variables]===================//
+//===================[Declaration of Private global objects and variables]=================//
 WiFiServer server(80);
 WiFiClient client;
 WiFiClientSecure externalClient;
@@ -10,7 +10,7 @@ wifiComState_t wifiComState;
 String httpRequestLine;
 
 
-//===========================[Implementation of public functions]=====================//
+//===========================[Implementation of public functions]=========================//
 void wifiComInit()
 {
     wifiComState = WIFI_STATE_INIT;
