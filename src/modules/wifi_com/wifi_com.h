@@ -8,7 +8,7 @@
 
 
 //===============================[Declaration of private defines]===========================//
-#define MAX_CONNECTION_ATTEMPTS 10
+#define MAX_CONNECTION_ATTEMPTS 50
 
 
 //===============================[Declaration of private variables]=========================//
@@ -22,9 +22,11 @@ const char host[] = "api.pushbullet.com";
 typedef enum {
    WIFI_STATE_INIT,
    WIFI_STATE_SERVER_INIT,
-   WIFI_STATE_READ_REQUEST,
+   WIFI_STATE_CHECK_CONNECTION,
+   WIFI_STATE_CHECK_FOR_REQUEST,
    WIFI_STATE_ATTEND_REQUEST,
-   WIFI_STATE_ERROR
+   WIFI_STATE_TRY_TO_RECONNECT,
+   WIFI_STATE_CONNECTION_ERROR
 } wifiComState_t;
 
 
@@ -41,8 +43,10 @@ void sendNotification(String title,String body);
 //=====================[Declarations (prototypes) of private functions]=====================//
 bool wifiEstablishConnection();
 void wifiServerInit();
-bool wifiReadRequest();
+bool wifiCheckConnection();
+bool wifiCheckForRequest();
 void wifiAttendRequest();
+void wifiTryToReconnect();
 void wifiErrorTreatment();
 
 

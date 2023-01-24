@@ -25,25 +25,39 @@ void wifiComUpdate()
 			if(wifiEstablishConnection())
 				wifiComState = WIFI_STATE_SERVER_INIT;
 			else
-				wifiComState = WIFI_STATE_ERROR;
+				wifiComState = WIFI_STATE_CONNECTION_ERROR;
 			break;
 
 		case WIFI_STATE_SERVER_INIT:
 			wifiServerInit();
-			wifiComState = WIFI_STATE_READ_REQUEST;
+			wifiComState = WIFI_STATE_CHECK_CONNECTION;
 			break;
 
-		case WIFI_STATE_READ_REQUEST:
-			if(wifiReadRequest())
+		case WIFI_STATE_CHECK_CONNECTION:
+			if(wifiCheckConnection())
+				wifiComState = WIFI_STATE_CHECK_FOR_REQUEST;
+			else
+				wifiComState = WIFI_STATE_TRY_TO_RECONNECT;
+			break;
+
+		case WIFI_STATE_CHECK_FOR_REQUEST:
+			if(wifiCheckForRequest())
 				wifiComState = WIFI_STATE_ATTEND_REQUEST;
+			else
+				wifiComState = WIFI_STATE_CHECK_CONNECTION;
 			break;
 
 		case WIFI_STATE_ATTEND_REQUEST:
 			wifiAttendRequest();
-			wifiComState = WIFI_STATE_READ_REQUEST;
+			wifiComState = WIFI_STATE_CHECK_CONNECTION;
 			break;
 
-		case WIFI_STATE_ERROR:
+		case WIFI_STATE_TRY_TO_RECONNECT:
+			wifiTryToReconnect();
+			wifiComState = WIFI_STATE_CHECK_CONNECTION;
+			break;
+
+		case WIFI_STATE_CONNECTION_ERROR:
 			wifiErrorTreatment();
 			break;
 	}
@@ -93,7 +107,17 @@ void wifiServerInit()
 }
 
 
-bool wifiReadRequest()
+bool wifiCheckConnection()
+{
+	bool activeConnection = false;
+	if(WiFi.status() != WL_CONNECTED)
+		activeConnection = true;
+	
+	return activeConnection;
+}
+
+
+bool wifiCheckForRequest()
 {
 	bool attentionRequired = false;
 	client = server.available();
@@ -116,6 +140,13 @@ void wifiAttendRequest()
 	client.flush();
 }
 
+
+void wifiTryToReconnect()
+{
+  	WiFi.disconnect();
+  	WiFi.reconnect();
+	delay(1000);
+}
 
 void wifiErrorTreatment()
 {
