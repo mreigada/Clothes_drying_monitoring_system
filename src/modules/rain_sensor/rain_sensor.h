@@ -6,7 +6,7 @@
 
 
 //===============================[Declaration of private defines]===========================//
-#define RAIN_SENSOR_DIGITAL_PIN D5
+#define RAIN_SENSOR_DIGITAL_PIN D0
 #define RAIN_SENSOR_ANALOG_PIN A0
 #define DEBOUNCE_RAIN_SENSOR_TIME_MS   10
 #define DRIZZLE_UPPER_LIMIT   1024
