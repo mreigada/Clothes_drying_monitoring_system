@@ -109,9 +109,9 @@ void wifiServerInit()
 
 bool wifiCheckConnection()
 {
-	bool activeConnection = false;
+	bool activeConnection = true;
 	if(WiFi.status() != WL_CONNECTED)
-		activeConnection = true;
+		activeConnection = false;
 	
 	return activeConnection;
 }
