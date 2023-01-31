@@ -27,7 +27,7 @@ Para cargar el programa en la placa de desarrollo se requiere utilizar el plugin
 
 ## Organización del repositorio
 
-El repositorio se organiza con la siguiente estructura
+El repositorio se organiza con la siguiente estructura:
 
     .
     ├── src
@@ -44,12 +44,12 @@ El repositorio se organiza con la siguiente estructura
 
 
 En donde se tienen las carpetas o archivos:
-* `src/`: carpeta que incluye la carpeta 'modules/' y el archivo 'main.cpp/'
+* `src/`: carpeta que incluye la carpeta 'modules/' y el archivo 'main.cpp/'.
 * `main.cpp/`: archivo principal del programa del sistema.
-* `modules/`: carpeta que contiene los archivos fuente de los distintos módulos que integran el programa del sistema
+* `modules/`: carpeta que contiene los archivos fuente de los distintos módulos que integran el programa del sistema.
 * `platformio.ini`: archivo de configuracion del proyecto.
+* `.gitignore`: archivo de indicación a Git sobre qué archivos o carpetas ignorar al subir nuevas versiones del proyecto.
 * `README.md`: este archivo *read me*.
-* Otros archivos de configuración del repo.
 
 ## Documentación
 La documentación tanto del código como del proyecto en sí estará disponible en el siguiente [enlace](https://docs.google.com/document/d/1M8HKhcYP2v-2SKNnl4K0idu1IjOEy0Cq/edit?usp=sharing&ouid=116164723835517603545&rtpof=true&sd=true).
