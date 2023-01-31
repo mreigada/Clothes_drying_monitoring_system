@@ -6,7 +6,7 @@ En este repositorio se encuentran los códigos fuentes del proyecto final para l
 ## Características del sistema
 - Sistema basado en la placa de desarrollo [WeMos D1 mini ESP8266](https://www.wemos.cc/en/latest/d1/d1_mini.html)
 - Sensado de temperatura y humedad ambiente usando un sensor digital DHT11.
-- Sensado de ocurrencia de lluvia e intensidad mediante sensor FC-37.
+- Sensado de ocurrencia de lluvia e intensidad mediante sensor YL-83.
 - Conexión Wi-Fi para posibilitar transmisión y recepción de datos desde y hacia la placa de control.
 - Aplicación web para configuración del dispositivo por parte del usuario.
 
