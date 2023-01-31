@@ -17,15 +17,39 @@ Para cargar el programa en la placa de desarrollo se requiere utilizar el plugin
 
 
 
-## Indicaciones para el uso sistema (provisorio)
+## Indicaciones para el uso sistema
 1. Encender el sistema
-2. Acceder desde un navegador web al puerto asignado (típicamente 192.168.1.45)
+2. Acceder desde un navegador web al puerto asignado (típicamente 192.168.1.46)
 3. Elegir desde el menú desplegable el tipo de función a utilizar (estimación de tiempo de secado para interiores, estimación de tiempo de secado para exteriores, medición de variables ambientales)
 4. Dar inicio a la estimación pulsando el botón "Start monitoring"
 5. Según la opción elegida en el paso 4 se podrán ver en pantalla los resultados esperados, actualizandose de manera constante cada 15 segundos
 6. En caso de querer volver al menú principal, pulsar el botón "Back to main menu"
 
+## Organización del repositorio
 
+El repositorio se organiza con la siguiente estructura
+
+    .
+    ├── src
+    │   ├── main.cpp
+    │   ├── modules
+    │   |   ├── clothes_drying_monitoring_system
+    │   |   └── clothes_drying_time_calculator
+    │   |   └── dht_sensor
+    │   |   └── ...
+    │   └── Startup
+    ├── platformio.ini
+    ├── README.md
+    └── ...
+
+
+En donde se tienen las carpetas o archivos:
+* `src/`: carpeta que incluye la carpeta 'modules/' y el archivo 'main.cpp/'
+* `main.cpp/`: archivo principal del programa del sistema.
+* `modules/`: carpeta que contiene los archivos fuente de los distintos módulos que integran el programa del sistema
+* `platformio.ini`: archivo de configuracion del proyecto.
+* `README.md`: este archivo *read me*.
+* Otros archivos de configuración del repo.
 
 ## Documentación
 La documentación tanto del código como del proyecto en sí estará disponible en el siguiente [enlace](https://docs.google.com/document/d/1M8HKhcYP2v-2SKNnl4K0idu1IjOEy0Cq/edit?usp=sharing&ouid=116164723835517603545&rtpof=true&sd=true).
