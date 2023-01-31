@@ -3,7 +3,7 @@
 
 
 //========================[Declaration of Private global variables]===================//
-clothingThickness_t selectedClothinThickness;
+clothingThickness_t selectedClothingThickness;
 runningState_t runningState;
 bool clothesEstimatorUpdateRequired;
 float savedTemperature;
@@ -28,8 +28,8 @@ void enableClothesDryingEstimator(clothingThickness_t clothingThickness)
 {
   savedTemperature = dhtSensorReadTemperature();
   savedHumidity = dhtSensorReadHumidity();
-  selectedClothinThickness = clothingThickness;
-  initialEstimatedDryingTime = calculateSecondsToDryClothes(savedTemperature, savedHumidity, selectedClothinThickness);
+  selectedClothingThickness = clothingThickness;
+  initialEstimatedDryingTime = calculateSecondsToDryClothes(savedTemperature, savedHumidity, selectedClothingThickness);
   estimatedDryingTime = initialEstimatedDryingTime;
   enableUpdateTimer();
   runningState = RUNNING;
@@ -117,7 +117,7 @@ void updateDryingData()
 {
   float currentTemperature = dhtSensorReadTemperature();
   float currentHumidity = dhtSensorReadHumidity();
-  float auxTime = calculateSecondsToDryClothes(currentTemperature, currentHumidity, selectedClothinThickness);
+  float auxTime = calculateSecondsToDryClothes(currentTemperature, currentHumidity, selectedClothingThickness);
 
   if(!isnan(currentTemperature) && (savedTemperature != currentTemperature || savedHumidity != currentHumidity))
   {
