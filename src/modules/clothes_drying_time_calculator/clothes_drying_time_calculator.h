@@ -45,6 +45,8 @@ void serialPrintDryingClothesEstimation();
 //======================[Declarations (prototypes) of private functions]====================//
 void updateClothesEstimatorIndicators();
 void updateDryingData();
+void enableUpdateTimer();
+void disableUpdateTimer();
 
 //=================================[#include guards - end]==================================//
 

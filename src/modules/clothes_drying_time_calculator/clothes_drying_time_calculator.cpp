@@ -31,19 +31,14 @@ void enableClothesDryingEstimator(clothingThickness_t clothingThickness)
   selectedClothinThickness = clothingThickness;
   initialEstimatedDryingTime = calculateSecondsToDryClothes(savedTemperature, savedHumidity, selectedClothinThickness);
   estimatedDryingTime = initialEstimatedDryingTime;
-
-  timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
-  timer1_write(TIMER1_25_SECONDS_TICKS_EQUIVALENCE);
-  timer1_attachInterrupt(updateClothesEstimatorIndicators);
-
+  enableUpdateTimer();
   runningState = RUNNING;
 }
 
 
 void disableClothesDryingEstimator()
 {
-  timer1_detachInterrupt();
-  timer1_disable();
+  disableUpdateTimer();
 }
 
 
@@ -130,4 +125,19 @@ void updateDryingData()
      savedHumidity = currentHumidity;
      estimatedDryingTime = auxTime - (initialEstimatedDryingTime - estimatedDryingTime);
   }
+}
+
+
+void enableUpdateTimer()
+{
+  timer1_enable(TIM_DIV256, TIM_EDGE, TIM_LOOP);
+  timer1_write(TIMER1_25_SECONDS_TICKS_EQUIVALENCE);
+  timer1_attachInterrupt(updateClothesEstimatorIndicators);
+}
+
+
+void disableUpdateTimer()
+{
+  timer1_detachInterrupt();
+  timer1_disable();
 }
