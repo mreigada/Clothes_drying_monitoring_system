@@ -37,18 +37,17 @@ El repositorio se organiza con la siguiente estructura:
     │   |   └── clothes_drying_time_calculator
     │   |   └── dht_sensor
     │   |   └── ...
-    │   └── Startup
+    ├── .gitignore
     ├── platformio.ini
-    ├── README.md
-    └── ...
+    └── README.md
 
 
 En donde se tienen las carpetas o archivos:
 * `src/`: carpeta que incluye la carpeta 'modules/' y el archivo 'main.cpp/'.
 * `main.cpp/`: archivo principal del programa del sistema.
 * `modules/`: carpeta que contiene los archivos fuente de los distintos módulos que integran el programa del sistema.
-* `platformio.ini`: archivo de configuracion del proyecto.
 * `.gitignore`: archivo de indicación a Git sobre qué archivos o carpetas ignorar al subir nuevas versiones del proyecto.
+* `platformio.ini`: archivo de configuracion del proyecto.
 * `README.md`: este archivo *read me*.
 
 ## Documentación
